@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0e7c86"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><title>مواعيد العمليات – د. أحمد الحاوي</title>
+<style>
+:root{--bg:#f5f7f8;--card:#fff;--tx:#17262b;--mut:#66787e;--pri:#0e7c86;--pri-tx:#fff;--bd:#dde5e8;--warn:#c2410c;--ok:#15803d;--danger:#b91c1c;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10181b;--card:#182327;--tx:#e8f0f2;--mut:#93a5ab;--pri:#2bb3be;--pri-tx:#06191b;--bd:#2a3a40;--warn:#fb923c;--ok:#4ade80;--danger:#f87171}}
+:root[data-theme="dark"]{--bg:#10181b;--card:#182327;--tx:#e8f0f2;--mut:#93a5ab;--pri:#2bb3be;--pri-tx:#06191b;--bd:#2a3a40;--warn:#fb923c;--ok:#4ade80;--danger:#f87171}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:"Segoe UI",Tahoma,Arial,sans-serif;font-size:16px;line-height:1.5}
+header{padding:16px;background:var(--pri);color:var(--pri-tx)}
+.av{width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.75);flex:none}
+header h1{margin:0;font-size:20px}header p{margin:2px 0 0;font-size:13px;opacity:.85}
+main{max-width:640px;margin:0 auto;padding:12px}
+.bar{display:flex;gap:8px;margin-bottom:12px}
+input,textarea,select{width:100%;padding:10px;border:1px solid var(--bd);border-radius:10px;background:var(--card);color:var(--tx);font:inherit}
+textarea{min-height:70px;resize:vertical}
+button{font:inherit;border:0;border-radius:10px;padding:10px 14px;cursor:pointer;background:var(--pri);color:var(--pri-tx);font-weight:600}
+button.sec{background:transparent;color:var(--pri);border:1px solid var(--bd)}
+button.del{background:transparent;color:var(--danger);border:1px solid var(--bd)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px;margin-bottom:10px}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.name{font-weight:700;font-size:17px}
+:root{--nm:#1d4ed8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--nm:#8ab8ff}}
+:root[data-theme="dark"]{--nm:#8ab8ff}
+.name,.rvi b{color:var(--nm)}
+.name{font-size:18px}
+@media print{.name{color:#000!important}}
+.badge{font-size:12px;padding:3px 9px;border-radius:99px;border:1px solid currentColor;white-space:nowrap}
+.row{display:flex;gap:14px;flex-wrap:wrap;color:var(--mut);font-size:14px;margin-top:6px}
+.row b{color:var(--tx)}
+.notes{margin-top:8px;font-size:14px;white-space:pre-wrap}
+.acts{display:flex;gap:8px;margin-top:10px}
+.acts button{padding:6px 12px;font-size:14px}
+.empty{text-align:center;color:var(--mut);padding:30px 0}
+dialog{border:0;border-radius:16px;padding:16px;width:min(94vw,520px);background:var(--bg);color:var(--tx)}
+dialog::backdrop{background:rgba(0,0,0,.5)}
+label{display:block;font-size:14px;color:var(--mut);margin:10px 0 4px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fab{width:100%;margin-bottom:12px}
+.cnt{color:var(--mut);font-size:13px;margin:4px 2px 10px}
+.dh{display:flex;justify-content:space-between;align-items:center;margin:16px 2px 8px;padding-bottom:6px;border-bottom:2px solid var(--pri)}
+.dh button{padding:5px 10px;font-size:13px}
+.n{color:var(--mut);font-size:13px}
+.cal-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.cal-h button{padding:4px 12px;font-size:14px}
+.cal-g{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.cal-w{font-size:12px;color:var(--mut)}
+.cal-d{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:8px;font-size:14px;background:transparent;color:var(--tx);padding:0;border:1px solid transparent;font-weight:400;line-height:1.1}
+.cal-d.has{background:var(--danger);color:var(--pri-tx);font-weight:700}
+.cal-d.today{border:2px solid var(--pri)}
+.cal-d.sel{outline:3px solid var(--tx);outline-offset:1px}
+.cal-d small{font-size:10px}
+.cal-e{visibility:hidden}
+@media print{#cal{display:none}}
+@media print{#sync{display:none}.card.skip{display:none!important}}
+.rvi{display:flex;gap:10px;align-items:flex-start;color:var(--tx);font-size:16px;margin:6px 0;padding:8px;border:1px solid var(--bd);border-radius:10px;background:var(--card)}
+.rvi input{width:20px;height:20px;padding:0;margin-top:3px;flex:none}
+#rv{max-height:90vh;overflow:auto}
+#sheet{width:min(98vw,1000px);max-height:92vh;overflow:auto}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th,.tbl td{border:1px solid var(--bd);padding:6px 8px;text-align:right;vertical-align:top;white-space:pre-wrap}
+.tbl th{background:var(--pri);color:var(--pri-tx);white-space:nowrap}
+@media print{@page{size:landscape}body.sheetp header,body.sheetp main{display:none}body.sheetp #sheet{display:block;position:static;width:100%;max-height:none;overflow:visible;border:0;padding:0;background:#fff;color:#000}body.sheetp .wrap{overflow:visible!important}.tbl th{background:#ddd!important;color:#000!important}.tbl th,.tbl td{border-color:#000!important;color:#000!important}}
+@media print{.bar,.fab,.cnt,.acts,.noprint{display:none!important}body.printing .day:not(.pr){display:none}body,header,.card{background:#fff!important;color:#000!important}header{border-bottom:2px solid #000}.row,.row b,.notes,.n,.row a{color:#000!important}.card{break-inside:avoid;border-color:#888}.badge{display:none}}
+</style>
+</head>
+<body>
+<header style="display:flex;align-items:center;gap:12px"><img class="av" src="data:image/jpeg;base64,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" alt="د. أحمد الحاوي"><div><h1>مواعيد العمليات</h1><p>د. أحمد الحاوي</p><p id="sync"></p></div></header>
+<main>
+  <button class="fab" id="add">＋ إضافة حالة</button>
+  <div class="bar">
+    <input id="q" dir="rtl" type="search" placeholder="بحث باسم الحالة أو الملاحظات">
+    <select id="f" style="width:auto"><option value="up">القادمة</option><option value="all">الكل</option><option value="past">السابقة</option></select>
+  </div>
+  <div id="rem" class="card noprint" style="display:none"></div>
+  <button class="sec noprint" id="wa" style="width:100%;margin-bottom:12px">📲 تذكير واتساب بعمليات الغد</button>
+  <button class="sec noprint" id="sh" style="width:100%;margin-bottom:12px">📊 شيت عمليات اليوم</button>
+  <div class="card noprint" id="cal"></div>
+  <div class="bar"><span class="n" style="align-self:center;white-space:nowrap">عمليات يوم:</span><input id="day" type="date"><button class="sec" id="dayx">مسح</button></div>
+  <div class="cnt" id="cnt"></div>
+  <div id="list"></div>
+  <button class="sec noprint" id="mvb" style="width:100%;margin-top:16px">🔁 نقل البيانات بين الأجهزة (نسخ / لصق)</button>
+  <div class="bar noprint" style="margin-top:16px"><button class="sec" id="bk">⬇ نسخة احتياطية</button><button class="sec" id="rs">⬆ استرجاع</button><input type="file" id="rf" accept=".json" hidden></div>
+</main>
+
+<dialog id="dlg">
+  <h3 id="dt" style="margin:0 0 4px">حالة جديدة</h3>
+  <label>اسم الحالة</label><input id="name" dir="rtl">
+  <label>رقم التليفون</label><input id="phone" type="tel" inputmode="tel" dir="ltr" style="text-align:right">
+  <label>عنوان الحالة</label><input id="addr" dir="rtl">
+  <label>نوع العملية</label><select id="op"><option value="">اختر نوع العملية</option><option>ولادة طبيعي</option><option>قيصري</option><option>منظار بطن</option><option>منظار رحمي</option><option>منظار بطن ورحم</option><option>حقن مجهري</option><option>كحت وتفريغ</option></select>
+  <div class="g2">
+    <div><label>ولادة طبيعية سابقة</label><input id="nat" type="number" min="0" inputmode="numeric" value="0"></div>
+    <div><label>ولادة قيصرية سابقة</label><input id="ces" type="number" min="0" inputmode="numeric" value="0"></div>
+  </div>
+  <div class="g2">
+    <div><label>إجهاض سابق (العدد)</label><input id="abo" type="number" min="0" inputmode="numeric" value="0"></div>
+    <div><label>المبلغ المتفق عليه</label><input id="amt" type="number" min="0" inputmode="decimal"></div>
+  </div>
+  <label>يوجد حمل حالي</label><select id="preg"><option value="">لا</option><option value="1">نعم</option></select>
+  <div class="g2" id="pg" style="display:none"><div><label>أول يوم في آخر دورة</label><input id="lmp" type="date"></div><div><label>ميعاد الولادة المتوقع</label><input id="edd" type="date"></div></div>
+  <label id="schl">ميعاد الولادة المحدد</label><input id="sch" type="date">
+  <label>ملاحظات الحالة</label><textarea id="notes" dir="rtl"></textarea>
+  <div class="acts" style="margin-top:14px"><button id="save">حفظ</button><button class="sec" id="cancel">إلغاء</button></div>
+</dialog>
+
+<dialog id="rv"><h3 style="margin:0 0 4px">مراجعة قبل الطباعة</h3><div class="n" id="rvs"></div><div id="rvl"></div><div class="acts" style="margin-top:14px"><button id="rvp">🖨 طباعة المحدد</button><button class="sec" id="rvc">رجوع</button></div></dialog>
+
+<dialog id="dd"><h3 style="margin:0 0 8px">حذف الحالة؟</h3><div id="dn" style="font-weight:700"></div><div class="n">لا يمكن التراجع عن الحذف.</div><div class="acts" style="margin-top:14px"><button id="ddy" style="background:var(--danger);color:#fff">حذف</button><button class="sec" id="ddn">إلغاء</button></div></dialog>
+
+<dialog id="sheet"><div class="top noprint"><h3 style="margin:0">شيت عمليات اليوم</h3><button class="sec" id="shc">إغلاق</button></div><div class="bar noprint" style="margin-top:10px"><input id="shd" type="date"><button id="shp">🖨 طباعة</button></div><div id="sht"></div></dialog>
+
+<dialog id="mv"><h3 style="margin:0 0 6px">نقل البيانات بين الأجهزة</h3>
+<div class="n">1) للتصدير: اضغط "نسخ" ثم الصق النص في الجهاز الآخر (واتساب أو ملاحظات).</div>
+<textarea id="mvo" readonly dir="ltr" style="min-height:90px;margin-top:6px"></textarea>
+<div class="acts"><button id="mvc">نسخ</button></div>
+<div class="n" style="margin-top:12px">2) للاستيراد: الصق النص هنا ثم اضغط "استيراد". الحالات الموجودة لا تتكرر.</div>
+<textarea id="mvi" dir="ltr" style="min-height:90px;margin-top:6px"></textarea>
+<div class="acts"><button id="mvm">استيراد</button><button class="sec" id="mvx">إغلاق</button></div>
+<div class="n" id="mvs" style="margin-top:8px"></div></dialog>
+
+<script>
+const KEY="hawy_cases_v1";
+let cases=[],editId=null;
+const $=id=>document.getElementById(id);
+let col=null;
+function localLoad(){try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return[]}}
+function localSave(){try{localStorage.setItem(KEY,JSON.stringify(cases))}catch(e){}}
+function setStatus(t){$("sync").textContent=t}
+async function putCase(o){
+  cases=cases.some(c=>c.id===o.id)?cases.map(c=>c.id===o.id?o:c):[...cases,o];localSave();render();
+  if(col){try{await col.doc(o.id).set(o)}catch(e){setStatus("⚠️ تعذّرت المزامنة")}}
+}
+async function rmCase(id){
+  cases=cases.filter(c=>c.id!==id);localSave();render();
+  if(col){try{await col.doc(id).delete()}catch(e){setStatus("⚠️ تعذّرت المزامنة")}}
+}
+const today=()=>{const d=new Date();d.setHours(0,0,0,0);return d};
+const fmt=s=>s?new Date(s+"T00:00:00").toLocaleDateString("ar-EG",{weekday:"long",day:"numeric",month:"long",year:"numeric"}):"—";
+function diff(s){return Math.round((new Date(s+"T00:00:00")-today())/864e5)}
+function badge(s){
+  if(!s)return'<span class="badge" style="color:var(--mut)">بدون ميعاد</span>';
+  const d=diff(s);
+  if(d===0)return'<span class="badge" style="color:var(--warn)">اليوم</span>';
+  if(d===1)return'<span class="badge" style="color:var(--warn)">غدًا</span>';
+  if(d>1)return`<span class="badge" style="color:var(--ok)">بعد ${d} يوم</span>`;
+  return`<span class="badge" style="color:var(--mut)">منذ ${-d} يوم</span>`;
+}
+function esc(t){const e=document.createElement("div");e.textContent=t;return e.innerHTML}
+function render(){
+  const q=$("q").value.trim(),f=$("f").value;
+  let a=cases.filter(c=>(c.name+" "+c.notes+" "+(c.op||"")+" "+(c.phone||"")+" "+(c.addr||"")).includes(q));
+  const dy=$("day").value;if(dy)a=a.filter(c=>c.sch===dy);else if(f==="up")a=a.filter(c=>!c.sch||diff(c.sch)>=0);
+  if(!dy&&f==="past")a=a.filter(c=>c.sch&&diff(c.sch)<0);
+  a.sort((x,y)=>(x.sch||"9999").localeCompare(y.sch||"9999")*(f==="past"?-1:1));
+  $("cnt").textContent=a.length+" حالة"+(dy?" — "+fmt(dy):"");remind();cal();
+  const card=c=>`<div class="card" data-id="${c.id}"><div class="top"><div class="name">${esc(c.name)}${c.op?` <span class="n" style="font-weight:600">· ${esc(c.op)}</span>`:""}</div>${badge(c.sch)}</div>
+  <div class="row">${c.phone?`<span>📞 <a href="tel:${c.phone.replace(/[^\d+]/g,"")}" style="color:var(--pri)"><b dir="ltr">${esc(c.phone)}</b></a></span>`:""}${c.preg||c.edd?`<span>حمل حالي</span>`:""}${c.lmp?`<span>أول يوم آخر دورة: <b>${fmt(c.lmp)}</b></span>`:""}${c.preg||c.edd?`<span>الولادة المتوقعة: <b>${fmt(c.edd)}</b></span>`:""}</div>
+  <div class="row"><span>طبيعي: <b>${c.nat}</b></span><span>قيصري: <b>${c.ces}</b></span><span>إجهاض: <b>${c.abo||0}</b></span>${c.amt?`<span>المبلغ المتفق عليه: <b>${Number(c.amt).toLocaleString("ar-EG")}</b></span>`:""}</div>
+  ${c.addr?`<div class="row"><span>📍 <b>${esc(c.addr)}</b></span></div>`:""}
+  ${c.notes?`<div class="notes">${esc(c.notes)}</div>`:""}
+  <div class="acts"><button class="sec" onclick="edit('${c.id}')">تعديل</button><button class="del" onclick="del('${c.id}')">حذف</button></div></div>`;
+  const g={};a.forEach(c=>{(g[c.sch||""]=g[c.sch||""]||[]).push(c)});
+  const keys=Object.keys(g).sort((x,y)=>(x||"9999").localeCompare(y||"9999")*(f==="past"?-1:1));
+  $("list").innerHTML=keys.length?keys.map(k=>`<section class="day" data-k="${k}"><div class="dh"><div><b>${k?fmt(k):"بدون ميعاد"}</b> <span class="n">(${g[k].length} حالة)</span></div><button class="sec noprint" onclick="printDay('${k}')">🖨 طباعة الجدول</button></div>${g[k].map(card).join("")}</section>`).join(""):'<div class="empty">'+(dy?"لا توجد عمليات في هذا اليوم":"لا توجد حالات")+'</div>';
+}
+function open_(c){
+  editId=c?c.id:null;$("dt").textContent=c?"تعديل الحالة":"حالة جديدة";
+  $("name").value=c?c.name:"";$("nat").value=c?c.nat:0;$("ces").value=c?c.ces:0;
+  $("sch").value=c?c.sch:"";$("amt").value=c?c.amt||"":"";$("phone").value=c?c.phone||"":"";$("edd").value=c?c.edd||"":"";$("lmp").value=c?c.lmp||"":"";$("abo").value=c?c.abo||0:0;$("preg").value=c&&(c.preg||c.edd)?"1":"";$("addr").value=c?c.addr||"":"";{const v=c?c.op||"":"";const o=$("op");if(v&&![...o.options].some(x=>x.value===v)){const n=document.createElement("option");n.textContent=v;o.appendChild(n)}o.value=v}$("notes").value=c?c.notes:"";
+  upd();$("dlg").showModal();
+}
+const WA="201023087881";
+function tomorrowStr(){const d=today();d.setDate(d.getDate()+1);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function waText(k){
+  const l=cases.filter(c=>c.sch===k);if(!l.length)return"";
+  return "تذكير بعمليات الغد — "+fmt(k)+"\nعدد الحالات: "+l.length+"\n\n"+l.map((c,i)=>(i+1)+") "+c.name+(c.op?" — "+c.op:"")+(c.phone?"\nتليفون: "+c.phone:"")+(c.addr?"\nالعنوان: "+c.addr:"")).join("\n\n");
+}
+function sendWA(){
+  const k=tomorrowStr(),t=waText(k);if(!t){setStatus("لا توجد عمليات غدًا");return}
+  try{localStorage.setItem(KEY+"_wa",k)}catch(e){}
+  window.open("https://wa.me/"+WA+"?text="+encodeURIComponent(t),"_blank");remind();
+}
+function remind(){
+  const b=$("rem"),k=tomorrowStr(),n=cases.filter(c=>c.sch===k).length;let sent="";try{sent=localStorage.getItem(KEY+"_wa")}catch(e){}
+  if(n&&new Date().getHours()>=17&&sent!==k){b.style.display="block";b.innerHTML="⏰ عندك "+n+" عملية غدًا. <button onclick=\"sendWA()\" style=\"margin-top:8px;width:100%\">إرسال التذكير عبر واتساب</button>"}else b.style.display="none";
+}
+function edit(id){open_(cases.find(c=>c.id===id))}
+function doPrint(k,keep){document.body.classList.add("printing");document.querySelectorAll(".card").forEach(x=>x.classList.toggle("skip",!keep.has(x.dataset.id)));document.querySelectorAll(".day").forEach(s=>s.classList.toggle("pr",s.dataset.k===k));try{window.print()}catch(e){document.body.classList.remove("printing");alert("افتح الرابط في المتصفح للطباعة")}}
+window.onafterprint=()=>document.body.classList.remove("printing","sheetp");
+let rvK=null;
+function printDay(k){
+  rvK=k;const list=cases.filter(c=>(c.sch||"")===k);
+  const tot=list.reduce((s,c)=>s+(Number(c.amt)||0),0);
+  $("rvs").textContent=(k?fmt(k):"بدون ميعاد")+" — "+list.length+" حالة"+(tot?" — إجمالي المبالغ: "+tot.toLocaleString("ar-EG"):"");
+  $("rvl").innerHTML=list.map(c=>{
+    const miss=[!c.phone&&"التليفون",!c.op&&"نوع العملية",!c.addr&&"العنوان"].filter(Boolean);
+    return `<label class="rvi"><input type="checkbox" checked data-id="${c.id}"><div><b>${esc(c.name)}</b>${c.op?" · "+esc(c.op):""}<div class="n">${[c.phone&&esc(c.phone),c.addr&&esc(c.addr),c.amt&&Number(c.amt).toLocaleString("ar-EG")].filter(Boolean).join(" · ")}</div>${miss.length?`<div style="color:var(--warn);font-size:13px">⚠️ ناقص: ${miss.join("، ")}</div>`:""}</div></label>`}).join("");
+  $("rv").showModal();
+}
+$("rvc").onclick=()=>$("rv").close();
+$("rvp").onclick=()=>{const keep=new Set([...document.querySelectorAll("#rvl input:checked")].map(i=>i.dataset.id));if(!keep.size){$("rvs").textContent="اختر حالة واحدة على الأقل";return}$("rv").close();doPrint(rvK,keep)};
+function upd(){const m=($("op").value||"").includes("منظار");$("schl").textContent=m?"يوم العملية":"ميعاد الولادة المحدد";$("pg").style.display=$("preg").value?"grid":"none"}
+let cm=new Date();cm.setDate(1);
+function cmv(k){cm.setMonth(cm.getMonth()+k);cal()}
+function pick(ds){$("day").value=$("day").value===ds?"":ds;render()}
+function cal(){
+  const y=cm.getFullYear(),m=cm.getMonth(),cnt={};
+  cases.forEach(c=>{if(c.sch)cnt[c.sch]=(cnt[c.sch]||0)+1});
+  const lead=(new Date(y,m,1).getDay()+1)%7,days=new Date(y,m+1,0).getDate(),td=dstr(new Date()),sel=$("day").value;
+  let h='<div class="cal-h"><button class="sec" onclick="cmv(-1)">السابق</button><b>'+cm.toLocaleDateString("ar-EG",{month:"long",year:"numeric"})+'</b><button class="sec" onclick="cmv(1)">التالي</button></div><div class="cal-g">';
+  ["س","ح","ن","ث","ر","خ","ج"].forEach(w=>h+='<div class="cal-w">'+w+'</div>');
+  for(let i=0;i<lead;i++)h+='<div class="cal-e"></div>';
+  for(let d=1;d<=days;d++){const ds=dstr(new Date(y,m,d)),n=cnt[ds]||0;
+    h+='<button class="cal-d'+(n?' has':'')+(ds===td?' today':'')+(ds===sel?' sel':'')+'" onclick="pick(\''+ds+'\')">'+d.toLocaleString("ar-EG")+(n?'<small>'+n.toLocaleString("ar-EG")+' عملية</small>':'')+'</button>'}
+  $("cal").innerHTML=h+'</div><div class="n" style="margin-top:8px">الأيام المظللة بالأحمر فيها عمليات. اضغط على يوم لعرض عملياته.</div>';
+}
+function dstr(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function sheet(){
+  const k=$("shd").value,l=cases.filter(c=>c.sch===k);
+  const tot=l.reduce((s,c)=>s+(Number(c.amt)||0),0);
+  const n=v=>v==null||v===""?"—":esc(String(v));
+  const sd=s=>s?new Date(s+"T00:00:00").toLocaleDateString("ar-EG"):"—";
+  $("sht").innerHTML=`<div style="margin:10px 0"><b>${k?fmt(k):"اختر يومًا"}</b> — ${l.length} حالة${tot?" — إجمالي المبالغ: <b>"+tot.toLocaleString("ar-EG")+"</b>":""}</div>`+(l.length?`<div class="wrap" style="overflow-x:auto"><table class="tbl"><thead><tr><th>#</th><th>الاسم</th><th>نوع العملية</th><th>التليفون</th><th>العنوان</th><th>طبيعي</th><th>قيصري</th><th>إجهاض</th><th>حمل حالي</th><th>أول يوم دورة</th><th>الولادة المتوقعة</th><th>المبلغ</th><th>ملاحظات</th></tr></thead><tbody>${l.map((c,i)=>`<tr><td>${i+1}</td><td>${n(c.name)}</td><td>${n(c.op)}</td><td>${n(c.phone)}</td><td>${n(c.addr)}</td><td>${n(c.nat)}</td><td>${n(c.ces)}</td><td>${n(c.abo||0)}</td><td>${c.preg||c.edd?"نعم":"لا"}</td><td>${sd(c.lmp)}</td><td>${sd(c.edd)}</td><td>${c.amt?Number(c.amt).toLocaleString("ar-EG"):"—"}</td><td style="min-width:140px">${n(c.notes)}</td></tr>`).join("")}</tbody></table></div>`:'<div class="empty">لا توجد عمليات في هذا اليوم</div>');
+}
+let delId=null;
+function del(id){delId=id;const c=cases.find(x=>x.id===id);$("dn").textContent=c?c.name:"";$("dd").showModal()}
+$("add").onclick=()=>open_(null);
+$("cancel").onclick=()=>$("dlg").close();
+$("save").onclick=()=>{
+  const name=$("name").value.trim();if(!name){$("name").focus();return}
+  const o={id:editId||String(Date.now()),name,nat:+$("nat").value||0,ces:+$("ces").value||0,sch:$("sch").value,amt:$("amt").value,abo:+$("abo").value||0,preg:$("preg").value,lmp:$("lmp").value,phone:$("phone").value.trim(),addr:$("addr").value.trim(),op:$("op").value.trim(),edd:$("edd").value,notes:$("notes").value.trim()};
+  putCase(o);
+  $("dlg").close();
+};
+$("q").oninput=render;$("f").onchange=render;$("day").oninput=render;$("day").onchange=render;$("dayx").onclick=()=>{$("day").value="";render()};$("wa").onclick=sendWA;$("ddn").onclick=()=>$("dd").close();
+$("mvb").onclick=()=>{$("mvo").value=JSON.stringify(cases);$("mvi").value="";$("mvs").textContent="";$("mv").showModal()};
+$("mvc").onclick=async()=>{const t=$("mvo");t.select();try{await navigator.clipboard.writeText(t.value);$("mvs").textContent="تم النسخ ✓"}catch(e){try{document.execCommand("copy");$("mvs").textContent="تم النسخ ✓"}catch(x){$("mvs").textContent="حدد النص وانسخه يدويًا"}}};
+$("mvm").onclick=async()=>{try{const d=JSON.parse($("mvi").value);if(!Array.isArray(d))throw 0;const ids=new Set(cases.map(c=>c.id));let n=0;for(const c of d){if(c&&c.id&&c.name&&!ids.has(c.id)){await putCase(c);n++}}$("mvs").textContent="تم استيراد "+n+" حالة"}catch(e){$("mvs").textContent="النص غير صالح"}};
+$("mvx").onclick=()=>$("mv").close();
+$("op").onchange=upd;$("preg").onchange=upd;
+$("lmp").onchange=()=>{if($("lmp").value){const d=new Date($("lmp").value+"T00:00:00");d.setDate(d.getDate()+280);$("edd").value=dstr(d)}};
+$("sh").onclick=()=>{$("shd").value=$("day").value||dstr(new Date());sheet();$("sheet").showModal()};
+$("shd").oninput=sheet;$("shd").onchange=sheet;$("shc").onclick=()=>$("sheet").close();
+$("shp").onclick=()=>{document.body.classList.add("sheetp");try{window.print()}catch(e){document.body.classList.remove("sheetp")}};$("ddy").onclick=()=>{$("dd").close();rmCase(delId)};
+
+$("bk").onclick=()=>{const b=new Blob([JSON.stringify(cases)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="hawy-cases-"+new Date().toISOString().slice(0,10)+".json";a.click()};
+$("rs").onclick=()=>$("rf").click();
+$("rf").onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const d=JSON.parse(await f.text());if(!Array.isArray(d))throw 0;const ids=new Set(cases.map(c=>c.id));d.forEach(c=>{if(c&&c.id&&!ids.has(c.id))cases.push(c)});localSave();render();setStatus("تم الاسترجاع")}catch(x){setStatus("ملف غير صالح")}e.target.value=""};
+cases=localLoad();render();setStatus("الحفظ على هذا الجهاز — خذ نسخة احتياطية من حين لآخر");
+if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
+</script>
+</body>
+</html>
